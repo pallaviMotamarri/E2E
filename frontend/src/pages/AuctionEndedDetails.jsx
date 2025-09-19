@@ -19,7 +19,7 @@ const AuctionEndedDetails = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`/api/auctions/${id}`);
+        const res = await axios.get(`https://auction-system-llhe.onrender.com/api/auctions/${id}`);
         setAuction(res.data);
         
         // If it's a reserve auction, check payment status

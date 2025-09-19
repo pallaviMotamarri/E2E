@@ -15,7 +15,7 @@ const DeletedAuctions = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('/api/auctions/my?status=deleted', {
+        const res = await axios.get('https://auction-system-llhe.onrender.com/api/auctions/my?status=deleted', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setAuctions(res.data);

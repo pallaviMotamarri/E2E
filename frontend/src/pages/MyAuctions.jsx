@@ -29,7 +29,7 @@ const MyAuctions = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('/api/auctions/my', {
+        const res = await axios.get('https://auction-system-llhe.onrender.com/api/auctions/my', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setAuctions(res.data);
@@ -65,7 +65,7 @@ const MyAuctions = () => {
       
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `http://localhost:5001/api/payments/winner-payment-status/${auction._id}`,
+        `https://auction-system-llhe.onrender.com/api/payments/winner-payment-status/${auction._id}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -223,7 +223,7 @@ const MyAuctions = () => {
                               if (window.confirm('Are you sure you want to delete this auction?')) {
                                 try {
                                   const token = localStorage.getItem('token');
-                                  await axios.delete(`/api/auctions/${auction._id}`, {
+                                  await axios.delete(`https://auction-system-llhe.onrender.com/api/auctions/${auction._id}`, {
                                     headers: { Authorization: `Bearer ${token}` }
                                   });
                                   setAuctions(prev => prev.filter(a => a._id !== auction._id));

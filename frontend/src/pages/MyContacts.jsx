@@ -15,7 +15,7 @@ const MyContacts = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('/api/my-contacts', {
+        const res = await axios.get('https://auction-system-llhe.onrender.com/api/my-contacts', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setMessages(res.data);

@@ -115,7 +115,7 @@ const AuctionBidPage = () => {
       if (isAuctionCreator) {
         // For auction creators - get all payment requests for their auction
         try {
-          const response = await api.get(`/api/admin/payments/auction/${id}/payment-requests`, {
+          const response = await api.get(`https://auction-system-llhe.onrender.com/api/admin/payments/auction/${id}/payment-requests`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           
@@ -179,10 +179,10 @@ const AuctionBidPage = () => {
   const checkRegularApprovalStatus = async (token) => {
     // Check both participation fee and winner payment status
     const [participationResponse, winnerResponse] = await Promise.allSettled([
-      api.get(`/api/payments/payment-status/${id}`, {
+      api.get(`https://auction-system-llhe.onrender.com/api/payments/payment-status/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       }),
-      api.get(`/api/payments/winner-payment-status/${id}`, {
+      api.get(`https://auction-system-llhe.onrender.com/api/payments/winner-payment-status/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
     ]);

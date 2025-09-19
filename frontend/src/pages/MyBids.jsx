@@ -18,7 +18,7 @@ const MyBids = () => {
     const fetchNotifications = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('/api/auctions/user/winner-notifications', {
+        const res = await axios.get('https://auction-system-llhe.onrender.com/api/auctions/user/winner-notifications', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setNotifications(res.data);
@@ -35,7 +35,7 @@ const MyBids = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('/api/auctions/user/participated-bids', {
+        const res = await axios.get('https://auction-system-llhe.onrender.com/api/auctions/user/participated-bids', {
           headers: { Authorization: `Bearer ${token}` }
         });
         // Group bids by auction and find highest bid per auction
@@ -73,7 +73,7 @@ const MyBids = () => {
     setExpandedAuction(auctionId);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('/api/auctions/user/participated-bids', {
+      const res = await axios.get('https://auction-system-llhe.onrender.com/api/auctions/user/participated-bids', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const auctionBids = res.data.filter(bid => bid.auction === auctionId);

@@ -35,7 +35,7 @@ const EditAuction = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`/api/auctions/${id}`, {
+        const res = await axios.get(`https://auction-system-llhe.onrender.com/api/auctions/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setAuction(res.data);
@@ -81,7 +81,7 @@ const EditAuction = () => {
           formData.append(key, value);
         }
       });
-      await axios.put(`/api/auctions/${id}`, formData, {
+      await axios.put(`https://auction-system-llhe.onrender.com/api/auctions/${id}`, formData, {
         headers: { Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data' }
       });
@@ -94,7 +94,7 @@ const EditAuction = () => {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`/api/auctions/${id}`, {
+      await axios.delete(`https://auction-system-llhe.onrender.com/api/auctions/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       navigate('/my-auctions');
@@ -143,7 +143,7 @@ const EditAuction = () => {
           e.preventDefault();
           try {
             const token = localStorage.getItem('token');
-            await axios.put(`/api/auctions/${id}/endtime`, { endTime: form.endTime }, {
+            await axios.put(`https://auction-system-llhe.onrender.com/api/auctions/${id}/endtime`, { endTime: form.endTime }, {
               headers: { Authorization: `Bearer ${token}` }
             });
             navigate('/my-auctions');
