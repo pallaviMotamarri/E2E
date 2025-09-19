@@ -29,7 +29,6 @@ import Profile from './pages/Profile';
 import MyAuctions from './pages/MyAuctions.jsx';
 import DeletedAuctions from './pages/DeletedAuctions.jsx';
 import MyBids from './pages/MyBids.jsx';
-import MyContacts from './pages/MyContacts.jsx';
 import CrownScore from './pages/CrownScore.jsx';
 import Terms from './pages/Terms';
 
@@ -71,7 +70,6 @@ function AppContent() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/my-auctions" element={<MyAuctions />} />
             <Route path="/my-bids" element={<MyBids />} />
-            <Route path="/my-contacts" element={<MyContacts />} />
             <Route path="/crown-score" element={<CrownScore />} />
             <Route path="/dashboard/edit-auction/:id" element={<EditAuction />} />
             <Route path="/dashboard/auction-ended-details/:id" element={<AuctionEndedDetails />} />
