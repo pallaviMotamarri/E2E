@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../utils/api';
 import './admin.css';
+import axios from 'axios';
 
 export default function AdminForgotPassword() {
   const [email, setEmail] = useState('');
@@ -13,12 +14,9 @@ export default function AdminForgotPassword() {
     setError('');
     setMessage('');
     try {
-<<<<<<< HEAD
+
       const res = await axios.post('https://auction-system-llhe.onrender.com/api/admin/auth/reset-password', { email, newPassword });
-=======
-  const res = await api.post('/admin/auth/reset-password', { email, newPassword });
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      setMessage(res.data.message);
+     setMessage(res.data.message);
     } catch (err) {
       setError(err.response?.data?.message || 'Password reset failed');
     }

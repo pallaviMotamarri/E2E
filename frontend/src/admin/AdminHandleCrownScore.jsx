@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Crown, TrendingUp, Users, Award, Plus, Minus, Edit3, Star } from 'lucide-react';
 import api from '../utils/api';
+import axios from 'axios';
 
 const PAGE_SIZE = 10;
 
@@ -25,12 +26,9 @@ const AdminHandleCrownScore = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-<<<<<<< HEAD
+
       const res = await axios.get(`https://auction-system-llhe.onrender.com/api/admin/users`, {
-=======
-  const res = await api.get(`/admin/users`, {
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        params: { page, pageSize: PAGE_SIZE }
+      params: { page, pageSize: PAGE_SIZE }
       });
       setUsers(res.data.users);
       setTotal(res.data.total);
@@ -70,12 +68,9 @@ const AdminHandleCrownScore = () => {
   const updateUserScore = async (userId, newScore) => {
     setLoading(true);
     try {
-<<<<<<< HEAD
+
       await axios.put(`https://auction-system-llhe.onrender.com/api/admin/users/${userId}`, { 
-=======
-      await api.put(`/admin/users/${userId}`, { 
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        crownScore: newScore 
+      crownScore: newScore 
       });
       fetchUsers();
     } catch (err) {
@@ -87,12 +82,8 @@ const AdminHandleCrownScore = () => {
   const handleUpdate = async () => {
     setLoading(true);
     try {
-<<<<<<< HEAD
       await axios.put(`https://auction-system-llhe.onrender.com/api/admin/users/${editUser._id}`, { 
-=======
-      await api.put(`/admin/users/${editUser._id}`, { 
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        crownScore: form.crownScore 
+       crownScore: form.crownScore 
       });
       setEditUser(null);
       fetchUsers();

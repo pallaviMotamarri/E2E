@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
+import axios from 'axios';
 
 const AdminHandleAuctions = () => {
   const [auctions, setAuctions] = useState([]);
@@ -22,12 +23,8 @@ const AdminHandleAuctions = () => {
     setLoading(true);
     setError('');
     try {
-<<<<<<< HEAD
       const res = await axios.get('https://auction-system-llhe.onrender.com/api/admin/handle-auctions');
-=======
-  const res = await api.get('/admin/handle-auctions');
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      setAuctions(res.data || []);
+     setAuctions(res.data || []);
     } catch (err) {
       setError('Failed to fetch auctions. Please check your backend or database.');
       setAuctions([]);
@@ -37,12 +34,8 @@ const AdminHandleAuctions = () => {
 
   const fetchAuctionRequests = async () => {
     try {
-<<<<<<< HEAD
       const res = await axios.get('https://auction-system-llhe.onrender.com/api/admin/auction-requests');
-=======
-  const res = await api.get('/admin/auction-requests');
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      setAuctionRequests(res.data.requests || []);
+     setAuctionRequests(res.data.requests || []);
     } catch (err) {
       console.error('Failed to fetch auction requests:', err);
     }
@@ -60,12 +53,9 @@ const AdminHandleAuctions = () => {
       }
       
       console.log('Fetching payment requests...');
-<<<<<<< HEAD
+
       const res = await axios.get('https://auction-system-llhe.onrender.com/api/admin/payments/payment-requests', {
-=======
-      const res = await api.get('/admin/payments/payment-requests', {
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        headers: { Authorization: `Bearer ${token}` }
+       headers: { Authorization: `Bearer ${token}` }
       });
       
       console.log('Payment requests response:', res.data);
@@ -83,12 +73,9 @@ const AdminHandleAuctions = () => {
     if (!window.confirm('Are you sure you want to stop this auction?')) return;
     setLoading(true);
     try {
-<<<<<<< HEAD
+
       await axios.put(`https://auction-system-llhe.onrender.com/api/admin/handle-auctions/${id}/stop`);
-=======
-  await api.put(`/admin/handle-auctions/${id}/stop`);
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      fetchAuctions();
+     fetchAuctions();
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to stop auction.');
     }
@@ -99,12 +86,9 @@ const AdminHandleAuctions = () => {
     if (!window.confirm('Continue this stopped auction?')) return;
     setLoading(true);
     try {
-<<<<<<< HEAD
+
       await axios.put(`https://auction-system-llhe.onrender.com/api/admin/handle-auctions/${id}/continue`);
-=======
-  await api.put(`/admin/handle-auctions/${id}/continue`);
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      fetchAuctions();
+     fetchAuctions();
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to continue auction.');
     }
@@ -115,12 +99,9 @@ const AdminHandleAuctions = () => {
     if (!window.confirm('Delete this auction?')) return;
     setLoading(true);
     try {
-<<<<<<< HEAD
+
       await axios.delete(`https://auction-system-llhe.onrender.com/api/admin/handle-auctions/${id}`);
-=======
-  await api.delete(`/admin/handle-auctions/${id}`);
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      fetchAuctions();
+    fetchAuctions();
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to delete auction.');
     }
@@ -131,12 +112,9 @@ const AdminHandleAuctions = () => {
     if (!window.confirm('Approve this reserve auction request? This will create the auction and make it live.')) return;
     setLoading(true);
     try {
-<<<<<<< HEAD
+
       const response = await axios.post(`https://auction-system-llhe.onrender.com/api/admin/auction-requests/${requestId}/approve`, {
-=======
-  const response = await api.post(`/admin/auction-requests/${requestId}/approve`, {
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        adminNotes: 'Approved by admin'
+      adminNotes: 'Approved by admin'
       });
       alert('Auction request approved successfully! The auction has been created.');
       fetchAuctionRequests();
@@ -153,12 +131,8 @@ const AdminHandleAuctions = () => {
     
     setLoading(true);
     try {
-<<<<<<< HEAD
       await axios.post(`https://auction-system-llhe.onrender.com/api/admin/auction-requests/${requestId}/reject`, {
-=======
-  await api.post(`/admin/auction-requests/${requestId}/reject`, {
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        adminNotes: reason
+      adminNotes: reason
       });
       alert('Auction request rejected successfully.');
       fetchAuctionRequests();
@@ -224,12 +198,9 @@ const AdminHandleAuctions = () => {
     
     setLoading(true);
     try {
-<<<<<<< HEAD
+
       const response = await axios.post('https://auction-system-llhe.onrender.com/api/admin/migrate-reserve-auctions');
-=======
-  const response = await api.post('/admin/migrate-reserve-auctions');
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      alert(`Migration completed! ${response.data.migrated} auctions migrated to pending requests.`);
+     alert(`Migration completed! ${response.data.migrated} auctions migrated to pending requests.`);
       fetchAuctionRequests();
       fetchAuctions();
     } catch (err) {
@@ -247,12 +218,9 @@ const AdminHandleAuctions = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('adminToken');
-<<<<<<< HEAD
+
       await axios.post(`https://auction-system-llhe.onrender.com/api/admin/payments/payment-requests/${paymentRequestId}/approve`, 
-=======
-      await api.post(`/admin/payments/payment-requests/${paymentRequestId}/approve`, 
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        { adminNotes }, 
+       { adminNotes }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert('Payment request approved successfully!');
@@ -275,12 +243,9 @@ const AdminHandleAuctions = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('adminToken');
-<<<<<<< HEAD
+
       await axios.post(`https://auction-system-llhe.onrender.com/api/admin/payments/payment-requests/${paymentRequestId}/reject`, 
-=======
-      await api.post(`/admin/payments/payment-requests/${paymentRequestId}/reject`, 
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        { adminNotes }, 
+       { adminNotes }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert('Payment request rejected successfully.');

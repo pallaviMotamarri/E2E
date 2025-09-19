@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, Users, UserCheck, UserX, Edit3, Shield, ShieldOff, Mail, Phone, Crown } from 'lucide-react';
 import api from '../utils/api';
+import axios from 'axios';
 
 const PAGE_SIZE = 10;
 
@@ -33,12 +34,8 @@ const AdminHandleUsers = () => {
     setLoading(true);
     try {
       // Replace with your backend API endpoint
-<<<<<<< HEAD
       const res = await axios.get(`https://auction-system-llhe.onrender.com/api/admin/users`, {
-=======
-  const res = await api.get(`/admin/users`, {
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-        params: { search: search.trim(), page, pageSize: PAGE_SIZE }
+      params: { search: search.trim(), page, pageSize: PAGE_SIZE }
       });
       setUsers(res.data.users);
       setTotal(res.data.total);
@@ -78,12 +75,8 @@ const AdminHandleUsers = () => {
         isEmailVerified: !!form.isEmailVerified,
         isPhoneVerified: !!form.isPhoneVerified,
       };
-<<<<<<< HEAD
       const res = await axios.put(`https://auction-system-llhe.onrender.com/api/admin/users/${editUser._id}`, payload);
-=======
-  const res = await api.put(`/admin/users/${editUser._id}`, payload);
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      if (res.status === 200) {
+    if (res.status === 200) {
         alert('Profile updated successfully');
       } else {
         alert(res.data?.message || 'Update failed');
@@ -99,11 +92,7 @@ const AdminHandleUsers = () => {
   const handleSuspendToggle = async (user) => {
     setLoading(true);
     try {
-<<<<<<< HEAD
       await axios.put(`https://auction-system-llhe.onrender.com/api/admin/users/${user._id}/${user.suspended ? 'unsuspend' : 'suspend'}`);
-=======
-  await api.put(`/admin/users/${user._id}/${user.suspended ? 'unsuspend' : 'suspend'}`);
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
       fetchUsers();
     } catch (err) {
       alert('Failed to update user status');

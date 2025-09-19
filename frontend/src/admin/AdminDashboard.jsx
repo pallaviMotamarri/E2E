@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../utils/api";
+import axios from 'axios';
 import {
   LayoutDashboard,
   Users,
@@ -54,18 +55,11 @@ const AdminDashboard = () => {
       setLoading(true);
       
       // Fetch total users count
-<<<<<<< HEAD
       const usersResponse = await axios.get('https://auction-system-llhe.onrender.com/api/admin/users/count');
       
       // Fetch active auctions count
       const auctionsResponse = await axios.get('https://auction-system-llhe.onrender.com/api/admin/auctions/active-count');
-=======
-  const usersResponse = await api.get('/admin/users/count');
-      
-      // Fetch active auctions count
-  const auctionsResponse = await api.get('/admin/auctions/active-count');
->>>>>>> 260dcc506faf2995683598f685c31bd75a055976
-      
+  
       // You can add more API calls for revenue and payments later
       setStats({
         totalUsers: usersResponse.data.count || 0,
