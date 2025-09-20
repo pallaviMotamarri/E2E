@@ -27,7 +27,6 @@ const Bid = () => {
   const statusOptions = [
     { value: 'live', label: 'Live Auctions' },
     { value: 'upcoming', label: 'Upcoming Auctions' },
-    { value: 'ending', label: 'Ending Soon' },
     { value: 'all', label: 'All Auctions' }
   ];
 
@@ -69,6 +68,12 @@ const Bid = () => {
     let filtered = auctions.filter(a => a.status !== 'deleted');
     const now = new Date();
 
+    // First filter out ended auctions for all cases
+    filtered = filtered.filter(auction => {
+      const endDate = new Date(auction.endDate);
+      return endDate > now; // Only show auctions that haven't ended
+    });
+
     // Filter by category
     if (filters.category && filters.category !== 'All Categories') {
       filtered = filtered.filter(auction => 
@@ -91,16 +96,9 @@ const Bid = () => {
           return startDate > now;
         });
         break;
-      case 'ending':
-        filtered = filtered.filter(auction => {
-          const endDate = new Date(auction.endDate);
-          const hoursLeft = (endDate - now) / (1000 * 60 * 60);
-          return hoursLeft <= 24 && hoursLeft > 0;
-        });
-        break;
       case 'all':
       default:
-        // No additional filtering
+        // No additional filtering (already filtered out ended auctions above)
         break;
     }
 
@@ -296,7 +294,6 @@ const Bid = () => {
             <h2 className="section-title">
               {filters.status === 'live' && 'Live Auctions'}
               {filters.status === 'upcoming' && 'Upcoming Auctions'}
-              {filters.status === 'ending' && 'Ending Soon'}
               {filters.status === 'all' && 'All Auctions'}
             </h2>
             <div className="results-count">
@@ -339,19 +336,6 @@ const Bid = () => {
         {/* Quick Actions */}
         <div className="quick-actions">
           <div className="action-card">
-            <Clock className="action-icon" />
-            <h3>Ending Soon</h3>
-            <p>Don't miss out on auctions ending in the next 24 hours</p>
-            <button
-              onClick={() => setFilters(prev => ({ ...prev, status: 'ending', sortBy: 'endingSoon' }))}
-              className="action-btn"
-            >
-              <Eye className="btn-icon" />
-              View Ending Soon
-            </button>
-          </div>
-
-          <div className="action-card">
             <Gavel className="action-icon" />
             <h3>Most Active</h3>
             <p>See auctions with the most bidding activity</p>
@@ -361,6 +345,19 @@ const Bid = () => {
             >
               <Eye className="btn-icon" />
               View Most Active
+            </button>
+          </div>
+
+          <div className="action-card">
+            <Clock className="action-icon" />
+            <h3>Upcoming Auctions</h3>
+            <p>Browse auctions that will start soon</p>
+            <button
+              onClick={() => setFilters(prev => ({ ...prev, status: 'upcoming', sortBy: 'newest' }))}
+              className="action-btn"
+            >
+              <Eye className="btn-icon" />
+              View Upcoming
             </button>
           </div>
         </div>

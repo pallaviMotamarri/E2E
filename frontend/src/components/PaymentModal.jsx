@@ -25,7 +25,7 @@ const PaymentModal = ({ isOpen, onClose, auctionId }) => {
   const checkPaymentStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`/api/payments/payment-status/${auctionId}`, {
+      const response = await axios.get(`https://auction-system-llhe.onrender.com/api/payments/payment-status/${auctionId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -45,7 +45,7 @@ const PaymentModal = ({ isOpen, onClose, auctionId }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await axios.get(`/api/payments/payment-details/${auctionId}`, {
+      const response = await axios.get(`https://auction-system-llhe.onrender.com/api/payments/payment-details/${auctionId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPaymentDetails(response.data.paymentDetails);
@@ -94,7 +94,7 @@ const PaymentModal = ({ isOpen, onClose, auctionId }) => {
       formData.append('paymentDate', paymentData.paymentDate);
       formData.append('paymentScreenshot', paymentData.paymentScreenshot);
 
-      const response = await axios.post('/api/payments/submit-payment', formData, {
+      const response = await axios.post('https://auction-system-llhe.onrender.com/api/payments/submit-payment', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

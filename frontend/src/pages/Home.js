@@ -11,6 +11,7 @@ const Home = () => {
   const [auctions, setAuctions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState({
     category: 'all',
     search: '',
@@ -52,7 +53,55 @@ const Home = () => {
   useEffect(() => {
     fetchAuctions();
     fetchCategories();
-  }, [filters]);
+  }, [filters, refreshKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Check for refresh flag on component mount
+  useEffect(() => {
+    const needsRefresh = localStorage.getItem('auctionDataNeedsRefresh');
+    const lastUpdate = localStorage.getItem('lastAuctionUpdate');
+    const now = Date.now();
+    
+    // If data was updated in the last 30 seconds, force refresh
+    if (needsRefresh === 'true' || (lastUpdate && (now - parseInt(lastUpdate)) < 30000)) {
+      console.log('Detected recent auction update - forcing aggressive refresh');
+      localStorage.removeItem('auctionDataNeedsRefresh');
+      
+      // Clear state and force refresh
+      setAuctions([]);
+      setLoading(true);
+      forceRefresh();
+    }
+  }, []);
+
+  // Add window focus listener to refresh data when user comes back to the page
+  useEffect(() => {
+    const handleFocus = () => {
+      console.log('Window focused - refreshing auction data');
+      forceRefresh();
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        console.log('Tab became visible - refreshing auction data');
+        forceRefresh();
+      }
+    };
+
+    const handleAuctionUpdated = (event) => {
+      console.log('Auction updated event received - refreshing data', event.detail);
+      forceRefresh();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('auctionUpdated', handleAuctionUpdated);
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('auctionUpdated', handleAuctionUpdated);
+    };
+  }, []);
 
   const fetchAuctions = async () => {
     try {
@@ -63,16 +112,36 @@ const Home = () => {
       if (filters.status) params.append('status', filters.status);
       if (filters.search) params.append('search', filters.search);
       
+      // Add cache busting parameter to ensure fresh data
+      params.append('_t', Date.now().toString());
+      
       const endpoint = filters.search 
         ? `/auctions/search/${encodeURIComponent(filters.search)}?${params.toString()}`
         : `/auctions?${params.toString()}`;
 
+      console.log('Home fetchAuctions - Fetching from endpoint:', endpoint);
+      console.log('Home fetchAuctions - Timestamp:', new Date().toISOString());
       const response = await api.get(endpoint);
+      console.log('Home fetchAuctions - Response received at:', new Date().toISOString());
+      console.log('Home fetchAuctions - Response data:', response.data);
+      console.log('Home fetchAuctions - Response data:', response.data);
       
       if (filters.search) {
         setAuctions(response.data.auctions || []);
       } else {
         setAuctions(response.data.auctions || response.data || []);
+      }
+      
+      // Log first auction's date fields for debugging
+      const auctions = response.data.auctions || response.data || [];
+      if (auctions.length > 0) {
+        console.log('Home fetchAuctions - First auction date fields:', {
+          title: auctions[0].title,
+          startDate: auctions[0].startDate,
+          startTime: auctions[0].startTime,
+          endDate: auctions[0].endDate,
+          endTime: auctions[0].endTime
+        });
       }
     } catch (error) {
       console.error('Error fetching auctions:', error);
@@ -110,6 +179,13 @@ const Home = () => {
       search: '',
       status: 'active'
     });
+  };
+
+  const forceRefresh = () => {
+    console.log('Force refresh triggered - clearing cache and refetching data');
+    // Clear any potential cached data
+    setAuctions([]);
+    setRefreshKey(prev => prev + 1);
   };
 
   return (
@@ -154,6 +230,10 @@ const Home = () => {
             <button className="reset-filters-btn" onClick={resetFilters}>
               <RefreshCw className="reset-icon" />
               Reset Filters
+            </button>
+            <button className="reset-filters-btn" onClick={forceRefresh}>
+              <RefreshCw className="reset-icon" />
+              Refresh Data
             </button>
           </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, Clock, DollarSign, Hash, Gavel } from 'lucide-react';
+import { Clock, Hash } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useAuth } from '../utils/AuthContext';
 import ImageCarousel from './ImageCarousel';
@@ -57,16 +57,28 @@ const getCurrencyInfo = (currency) => currencyLocaleMap[currency] || { locale: '
   };
 
   const formatTimeLeft = (auction) => {
+    console.log('AuctionCard formatTimeLeft - Auction:', auction.title, {
+      status: auction.status,
+      startDate: auction.startDate,
+      startTime: auction.startTime,
+      endDate: auction.endDate,
+      endTime: auction.endTime,
+      _id: auction._id
+    });
+    
     const now = new Date();
     let target;
     let label = '';
     if (auction.status === 'upcoming') {
-      target = new Date(auction.startTime || auction.startDate);
+      target = new Date(auction.startDate || auction.startTime);
       label = 'Starts in';
     } else {
-      target = new Date(auction.endTime || auction.endDate);
+      target = new Date(auction.endDate || auction.endTime);
       label = 'Ends in';
     }
+    
+    console.log('AuctionCard formatTimeLeft - Target date:', target, 'Now:', now, 'Diff (ms):', target - now);
+    
     if (!target || isNaN(target.getTime())) return 'Unknown';
     const diff = target - now;
     if (diff <= 0) return auction.status === 'upcoming' ? 'Started' : 'Ended';
@@ -75,9 +87,13 @@ const getCurrencyInfo = (currency) => currencyLocaleMap[currency] || { locale: '
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     
-    if (days > 0) return `${label} ${days}d ${hours}h`;
-    if (hours > 0) return `${label} ${hours}h ${minutes}m`;
-    return `${label} ${minutes}m`;
+    const result = days > 0 ? `${label} ${days}d ${hours}h` : 
+                   hours > 0 ? `${label} ${hours}h ${minutes}m` : 
+                   `${label} ${minutes}m`;
+    
+    console.log('AuctionCard formatTimeLeft - Result:', result);
+    
+    return result;
   };
 
   const getStatusColor = (status) => {

@@ -55,6 +55,20 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  const refreshUserProfile = async () => {
+    if (token) {
+      try {
+        const response = await api.get('/auth/profile');
+        setUser(response.data);
+        return response.data;
+      } catch (error) {
+        console.error('Error refreshing user profile:', error);
+        return null;
+      }
+    }
+    return null;
+  };
+
   const value = {
     user,
     token,
@@ -62,6 +76,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     updateUser,
+    refreshUserProfile,
     isAuthenticated: !!user,
     isEmailVerified: user?.isEmailVerified || false,
     isPhoneVerified: user?.isPhoneVerified || false

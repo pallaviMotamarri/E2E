@@ -156,17 +156,17 @@ const BidderPage = () => {
     let label = '';
     // Use startDate/endDate if startTime/endTime are missing
     if (auction.status === 'upcoming') {
-      if (auction.startTime) {
-        target = new Date(auction.startTime);
-      } else if (auction.startDate) {
+      if (auction.startDate) {
         target = new Date(auction.startDate);
+      } else if (auction.startTime) {
+        target = new Date(auction.startTime);
       }
       label = 'Starts in';
     } else {
-      if (auction.endTime) {
-        target = new Date(auction.endTime);
-      } else if (auction.endDate) {
+      if (auction.endDate) {
         target = new Date(auction.endDate);
+      } else if (auction.endTime) {
+        target = new Date(auction.endTime);
       }
       label = 'Ends in';
     }

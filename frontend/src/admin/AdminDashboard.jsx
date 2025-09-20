@@ -40,9 +40,7 @@ const AdminDashboard = () => {
   const [active, setActive] = useState("dashboard");
   const [stats, setStats] = useState({
     totalUsers: 0,
-    activeAuctions: 0,
-    totalRevenue: 0,
-    pendingPayments: 0
+    activeAuctions: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -60,21 +58,17 @@ const AdminDashboard = () => {
       // Fetch active auctions count
       const auctionsResponse = await axios.get('https://auction-system-llhe.onrender.com/api/admin/auctions/active-count');
   
-      // You can add more API calls for revenue and payments later
+      // You can add more API calls later if needed
       setStats({
         totalUsers: usersResponse.data.count || 0,
-        activeAuctions: auctionsResponse.data.count || 0,
-        totalRevenue: 45678.90, // Keep static for now, can be updated later
-        pendingPayments: 12 // Keep static for now, can be updated later
+        activeAuctions: auctionsResponse.data.count || 0
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
       // Fallback to default values if API fails
       setStats({
         totalUsers: 0,
-        activeAuctions: 0,
-        totalRevenue: 0,
-        pendingPayments: 0
+        activeAuctions: 0
       });
     } finally {
       setLoading(false);
@@ -114,34 +108,6 @@ const AdminDashboard = () => {
             <span className="trend positive">
               <Activity size={16} />
               {loading ? 'Fetching data...' : 'Currently running'}
-            </span>
-          </div>
-        </div>
-
-        <div className="stat-card revenue">
-          <div className="stat-icon">
-            <DollarSign size={24} />
-          </div>
-          <div className="stat-content">
-            <h3>${stats.totalRevenue.toLocaleString()}</h3>
-            <p>Total Revenue</p>
-            <span className="trend positive">
-              <TrendingUp size={16} />
-              +8.5% this week
-            </span>
-          </div>
-        </div>
-
-        <div className="stat-card payments">
-          <div className="stat-icon">
-            <CreditCard size={24} />
-          </div>
-          <div className="stat-content">
-            <h3>{stats.pendingPayments}</h3>
-            <p>Pending Payments</p>
-            <span className="trend warning">
-              <Clock size={16} />
-              Needs attention
             </span>
           </div>
         </div>

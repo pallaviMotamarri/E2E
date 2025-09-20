@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../utils/AuthContext';
-import { Crown } from 'lucide-react';
+import { Crown, RefreshCw } from 'lucide-react';
 import './CrownScore.css';
 
 
@@ -18,15 +18,30 @@ function getRestrictionMessages(score) {
 }
 
 export default function CrownScore() {
-  const { user } = useAuth();
+  const { user, refreshUserProfile } = useAuth();
+  const [refreshing, setRefreshing] = useState(false);
   const score = user?.crownScore ?? 100;
   const messages = getRestrictionMessages(score);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refreshUserProfile();
+    setRefreshing(false);
+  };
 
   return (
     <div className="crown-score-container">
       <div className="crown-score-header">
         <Crown size={32} color="#f5b700" />
         <h2>Crown Score</h2>
+        <button 
+          className="refresh-button"
+          onClick={handleRefresh}
+          disabled={refreshing}
+          title="Refresh your crown score"
+        >
+          <RefreshCw size={20} className={refreshing ? 'spinning' : ''} />
+        </button>
       </div>
       <div className="crown-score-value">
         <span className="score">{score}</span>

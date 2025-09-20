@@ -183,9 +183,28 @@ const CreateAuction = () => {
       // Use generated participation code
       formData.append('participationCode', participationCode);
 
-      // Add form data
+      // Add form data with proper date handling
       Object.keys(data).forEach(key => {
-        formData.append(key, data[key]);
+        if (key === 'startDate' || key === 'endDate') {
+          // For datetime-local inputs, we need to handle timezone correctly
+          // The input gives us local time in format "YYYY-MM-DDTHH:MM"
+          // We need to send it as the user intended (local time)
+          const localDateTime = data[key]; // e.g., "2025-09-19T15:30"
+          
+          // Parse the local datetime string manually to avoid timezone issues
+          const [datePart, timePart] = localDateTime.split('T');
+          const [year, month, day] = datePart.split('-');
+          const [hours, minutes] = timePart.split(':');
+          
+          // Create date object in local timezone
+          const localDate = new Date(year, month - 1, day, hours, minutes);
+          
+          // Send as ISO string but adjusted for local timezone
+          formData.append(key, localDate.toISOString());
+          console.log(`${key}: Input=${localDateTime}, LocalDate=${localDate.toString()}, ISO=${localDate.toISOString()}`);
+        } else {
+          formData.append(key, data[key]);
+        }
       });
 
       // Add images

@@ -14,11 +14,46 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 1rem;
+  position: relative;
 }
 .crown-score-header h2 {
   font-size: 1.5rem;
   font-weight: 700;
   color: #f5b700;
+  flex: 1;
+}
+
+.refresh-button {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+}
+
+.refresh-button:hover {
+  background: #e9ecef;
+  border-color: #f5b700;
+  color: #f5b700;
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 .crown-score-value {
   display: flex;

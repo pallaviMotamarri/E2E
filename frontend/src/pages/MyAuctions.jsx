@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import api from '../utils/api';
 import './MyAuctions.css';
 import { Link } from 'react-router-dom';
 import { Gavel, Edit, Trash2, Plus, Clock, Zap, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
@@ -28,10 +29,7 @@ const MyAuctions = () => {
       setLoading(true);
       setError(null);
       try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get('https://auction-system-llhe.onrender.com/api/auctions/my', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await api.get('/auctions/my');
         setAuctions(res.data);
         
         // Calculate counts
@@ -47,7 +45,8 @@ const MyAuctions = () => {
           deleted: deletedCount
         });
       } catch (err) {
-        setError('Failed to load auctions');
+        console.error('Fetch auctions error:', err);
+        setError('Failed to load auctions: ' + (err.response?.data?.message || err.message));
       } finally {
         setLoading(false);
       }
@@ -63,13 +62,7 @@ const MyAuctions = () => {
       setApprovalLoading(true);
       setSelectedAuction(auction);
       
-      const token = localStorage.getItem('token');
-      const response = await axios.get(
-        `https://auction-system-llhe.onrender.com/api/payments/winner-payment-status/${auction._id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      const response = await api.get(`/payments/winner-payment-status/${auction._id}`);
       
       console.log('Approval status response:', response.data);
       
@@ -91,7 +84,7 @@ const MyAuctions = () => {
       console.error('Error checking approval status:', error);
       setApprovalStatus({
         error: true,
-        message: 'Failed to load approval status. Please try again.'
+        message: 'Failed to load approval status: ' + (error.response?.data?.message || error.message)
       });
       setShowApprovalModal(true);
     } finally {
@@ -222,13 +215,18 @@ const MyAuctions = () => {
                             onClick={async () => {
                               if (window.confirm('Are you sure you want to delete this auction?')) {
                                 try {
-                                  const token = localStorage.getItem('token');
-                                  await axios.delete(`https://auction-system-llhe.onrender.com/api/auctions/${auction._id}`, {
-                                    headers: { Authorization: `Bearer ${token}` }
-                                  });
+                                  await api.delete(`/auctions/${auction._id}`);
+                                  // Update the auctions list after successful deletion
                                   setAuctions(prev => prev.filter(a => a._id !== auction._id));
+                                  // Update counts
+                                  setCounts(prev => ({
+                                    ...prev,
+                                    total: prev.total - 1,
+                                    [auction.status]: prev[auction.status] - 1
+                                  }));
                                 } catch (err) {
-                                  alert('Failed to delete auction');
+                                  console.error('Delete error:', err);
+                                  alert('Failed to delete auction: ' + (err.response?.data?.message || err.message));
                                 }
                               }
                             }}

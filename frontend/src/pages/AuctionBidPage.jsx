@@ -218,12 +218,12 @@ const AuctionBidPage = () => {
     const now = new Date();
     let target;
     let label = '';
-    // Prefer startTime/endTime, fallback to startDate/endDate
+    // Prefer startDate/endDate, fallback to startTime/endTime
     if (auction?.status === 'upcoming') {
-      target = auction?.startTime ? new Date(auction.startTime) : (auction?.startDate ? new Date(auction.startDate) : null);
+      target = auction?.startDate ? new Date(auction.startDate) : (auction?.startTime ? new Date(auction.startTime) : null);
       label = 'Starts in';
     } else {
-      target = auction?.endTime ? new Date(auction.endTime) : (auction?.endDate ? new Date(auction.endDate) : null);
+      target = auction?.endDate ? new Date(auction.endDate) : (auction?.endTime ? new Date(auction.endTime) : null);
       label = 'Ends in';
     }
     // If no valid date, show '--' instead of 'Unknown'

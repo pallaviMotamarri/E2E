@@ -15,8 +15,7 @@ const AdminHandleCrownScore = () => {
   const [stats, setStats] = useState({
     totalUsers: 0,
     averageScore: 0,
-    topScorer: null,
-    totalCrowns: 0
+    topScorer: null
   });
 
   useEffect(() => {
@@ -42,8 +41,7 @@ const AdminHandleCrownScore = () => {
       setStats({
         totalUsers: res.data.total,
         averageScore: averageScore.toFixed(1),
-        topScorer,
-        totalCrowns
+        topScorer
       });
     } catch (err) {
       console.error('Error fetching users:', err);
@@ -130,20 +128,6 @@ const AdminHandleCrownScore = () => {
             <h3>{stats.totalUsers}</h3>
             <p>Total Users</p>
             <span className="trend">Registered users</span>
-          </div>
-        </div>
-
-        <div className="stat-card total-crowns">
-          <div className="stat-icon">
-            <Crown size={24} />
-          </div>
-          <div className="stat-content">
-            <h3>{stats.totalCrowns}</h3>
-            <p>Total Crowns</p>
-            <span className="trend positive">
-              <TrendingUp size={16} />
-              Distributed
-            </span>
           </div>
         </div>
 

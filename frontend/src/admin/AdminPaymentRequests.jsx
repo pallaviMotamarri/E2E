@@ -57,7 +57,7 @@ const AdminPaymentRequests = () => {
         page 
       });
       
-      const response = await axios.get('/api/admin/payments/payment-requests', {
+      const response = await axios.get('https://auction-system-llhe.onrender.com/api/admin/payments/payment-requests', {
         headers: { Authorization: `Bearer ${token}` },
         params: {
           status: filter,

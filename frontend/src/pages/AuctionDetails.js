@@ -81,10 +81,10 @@ const AuctionDetails = () => {
     let target;
     let label = '';
     if (auction?.status === 'upcoming') {
-      target = new Date(auction?.startTime || auction?.startDate);
+      target = new Date(auction?.startDate || auction?.startTime);
       label = 'Starts in';
     } else {
-      target = new Date(auction?.endTime || auction?.endDate);
+      target = new Date(auction?.endDate || auction?.endTime);
       label = 'Ends in';
     }
     if (!target || isNaN(target.getTime())) return 'Unknown';

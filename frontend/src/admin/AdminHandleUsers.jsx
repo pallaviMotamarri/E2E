@@ -282,8 +282,8 @@ const AdminHandleUsers = () => {
 
       {/* Edit Modal */}
       {editUser && (
-        <div className="modal-overlay">
-          <div className="edit-modal">
+        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setEditUser(null)}>
+          <div className="edit-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Edit User Profile</h3>
               <button className="close-btn" onClick={() => setEditUser(null)}>×</button>
@@ -760,73 +760,107 @@ const AdminHandleUsers = () => {
         }
 
         .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          background: rgba(0, 0, 0, 0.6) !important;
+          z-index: 9999 !important;
+          backdrop-filter: blur(4px);
+          box-sizing: border-box !important;
         }
 
         .edit-modal {
-          background: white;
-          border-radius: 12px;
-          padding: 2rem;
-          max-width: 600px;
-          width: 90%;
-          max-height: 90vh;
-          overflow-y: auto;
+          background: white !important;
+          border-radius: 16px !important;
+          padding: 2rem !important;
+          max-width: 800px !important;
+          width: 95% !important;
+          max-height: 90vh !important;
+          overflow-y: auto !important;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+          animation: modalAppear 0.3s ease-out !important;
+          box-sizing: border-box !important;
+          position: absolute !important;
+          top: 50% !important;
+          left: 50% !important;
+          transform: translate(-50%, -50%) !important;
+        }
+
+        @keyframes modalAppear {
+          from {
+            opacity: 0;
+            transform: scale(0.9) translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
         }
 
         .modal-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1.5rem;
+          margin-bottom: 2rem;
+          padding-bottom: 1rem;
+          border-bottom: 2px solid #f3f4f6;
         }
 
         .modal-header h3 {
           margin: 0;
           color: #1f2937;
+          font-size: 1.5rem;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .modal-header h3::before {
+          content: '👤';
           font-size: 1.25rem;
-          font-weight: 600;
         }
 
         .close-btn {
-          background: none;
-          border: none;
-          font-size: 1.5rem;
+          background: #f3f4f6;
+          border: 2px solid #e5e7eb;
+          font-size: 1.25rem;
           cursor: pointer;
           color: #6b7280;
-          padding: 0;
-          width: 30px;
-          height: 30px;
+          padding: 0.5rem;
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 50%;
-          transition: background 0.2s;
+          border-radius: 8px;
+          transition: all 0.2s;
+          font-weight: bold;
         }
 
         .close-btn:hover {
-          background: #f3f4f6;
+          background: #ef4444;
+          color: white;
+          border-color: #ef4444;
+          transform: scale(1.05);
         }
 
         .form-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
+          gap: 2rem;
+          margin-bottom: 2rem;
         }
 
         .form-group {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0.75rem;
+          min-width: 0;
         }
 
         .form-group.full-width {
@@ -836,37 +870,70 @@ const AdminHandleUsers = () => {
         .form-group label {
           font-weight: 600;
           color: #374151;
-          font-size: 0.875rem;
+          font-size: 0.9rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .form-group label::before {
+          content: '';
+          width: 4px;
+          height: 4px;
+          background: #3b82f6;
+          border-radius: 50%;
         }
 
         .form-group input,
         .form-group select {
-          padding: 0.75rem;
+          padding: 1rem 1.25rem;
           border: 2px solid #e5e7eb;
-          border-radius: 8px;
-          font-size: 0.875rem;
-          transition: border-color 0.2s;
+          border-radius: 10px;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+          background: #fafbfc;
+          width: 100%;
+          box-sizing: border-box;
+          min-width: 0;
         }
 
         .form-group input:focus,
         .form-group select:focus {
           outline: none;
           border-color: #3b82f6;
+          background: white;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          transform: translateY(-1px);
+        }
+
+        .form-group input[type="password"] {
+          font-family: monospace;
         }
 
         .verification-checkboxes {
           display: flex;
-          gap: 1.5rem;
-          margin-bottom: 2rem;
+          gap: 2rem;
+          margin-bottom: 2.5rem;
+          padding: 1.5rem;
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+          border-radius: 12px;
+          border: 1px solid #e2e8f0;
         }
 
         .checkbox-label {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
           cursor: pointer;
-          font-weight: 500;
+          font-weight: 600;
           color: #374151;
+          transition: color 0.2s;
+        }
+
+        .checkbox-label:hover {
+          color: #3b82f6;
         }
 
         .checkbox-label input[type="checkbox"] {
@@ -874,25 +941,28 @@ const AdminHandleUsers = () => {
         }
 
         .checkmark {
-          width: 20px;
-          height: 20px;
-          border: 2px solid #e5e7eb;
-          border-radius: 4px;
+          width: 24px;
+          height: 24px;
+          border: 3px solid #e5e7eb;
+          border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s;
+          transition: all 0.3s ease;
+          background: white;
+          position: relative;
         }
 
         .checkbox-label input[type="checkbox"]:checked + .checkmark {
-          background: #3b82f6;
+          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
           border-color: #3b82f6;
+          transform: scale(1.1);
         }
 
         .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
           content: '✓';
           color: white;
-          font-size: 12px;
+          font-size: 14px;
           font-weight: bold;
         }
 
@@ -901,56 +971,70 @@ const AdminHandleUsers = () => {
           gap: 1rem;
           justify-content: flex-end;
           flex-wrap: wrap;
+          padding-top: 1.5rem;
+          border-top: 2px solid #f3f4f6;
         }
 
         .btn-update,
         .btn-cancel,
         .btn-suspend-modal {
-          padding: 0.75rem 1.5rem;
+          padding: 1rem 2rem;
           border: none;
-          border-radius: 8px;
+          border-radius: 10px;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.2s;
           display: flex;
           align-items: center;
           gap: 0.5rem;
+          font-size: 0.95rem;
+          position: relative;
+          overflow: hidden;
         }
 
         .btn-update {
-          background: #10b981;
+          background: linear-gradient(135deg, #10b981, #059669);
           color: white;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .btn-update:hover {
-          background: #059669;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
         }
 
         .btn-cancel {
-          background: #f3f4f6;
-          color: #374151;
+          background: #f8f9fa;
+          color: #6c757d;
+          border: 2px solid #e9ecef;
         }
 
         .btn-cancel:hover {
-          background: #e5e7eb;
+          background: #e9ecef;
+          color: #495057;
+          transform: translateY(-1px);
         }
 
         .btn-suspend-modal.suspend {
-          background: #ef4444;
+          background: linear-gradient(135deg, #ef4444, #dc2626);
           color: white;
+          box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         .btn-suspend-modal.suspend:hover {
-          background: #dc2626;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
         }
 
         .btn-suspend-modal.unsuspend {
-          background: #10b981;
+          background: linear-gradient(135deg, #10b981, #059669);
           color: white;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .btn-suspend-modal.unsuspend:hover {
-          background: #059669;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
         }
 
         .loading-spinner {
@@ -1006,6 +1090,51 @@ const AdminHandleUsers = () => {
           .verification-checkboxes {
             flex-direction: column;
             gap: 1rem;
+          }
+          
+          .edit-modal {
+            width: 95% !important;
+            max-width: none !important;
+            padding: 1.5rem !important;
+            margin: 1rem !important;
+            max-height: 95vh !important;
+          }
+          
+          .modal-overlay {
+            padding: 0.5rem !important;
+          }
+          
+          .btn-update,
+          .btn-cancel,
+          .btn-suspend-modal {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .edit-modal {
+            padding: 1rem !important;
+            width: 98% !important;
+          }
+          
+          .modal-header h3 {
+            font-size: 1.25rem;
+          }
+          
+          .form-group input,
+          .form-group select {
+            padding: 0.875rem 1rem;
+          }
+          
+          .verification-checkboxes {
+            padding: 1rem;
+          }
+        }
+
+        @media (min-width: 1200px) {
+          .edit-modal {
+            max-width: 900px !important;
           }
         }
       `}</style>
