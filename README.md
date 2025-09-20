@@ -1,3 +1,5 @@
+### The deployed link is 
+https://e2e-krdc.onrender.com
 # Online Auction System - MERN Stack
 
 A comprehensive online auction platform built with the MERN stack (MongoDB, Express.js, React, Node.js) featuring advanced authentication, real-time bidding, file uploads, and responsive design.
@@ -265,17 +267,6 @@ For support and questions:
 - Contact the development team via the contact form
 - Check the documentation for common solutions
 
-## 🔄 Future Enhancements
 
-- Real-time chat between buyers and sellers
-- Advanced search with filters and sorting
-- Payment gateway integration
-- Mobile application development
-- Analytics dashboard for auction insights
-- Social media integration
-- Email newsletter subscription
-- Multi-language support
-
----
 
 **Built with ❤️ using the MERN Stack**
