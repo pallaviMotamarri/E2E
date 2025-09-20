@@ -848,11 +848,12 @@
 
 .stat-item {
   background: #fff;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   border-left: 4px solid #3867d6;
+  
 }
 
 .stat-item.pending {
@@ -880,6 +881,7 @@
 }
 
 .stat-number {
+  margin-left: 0.5rem;
   font-size: 2.5rem;
   font-weight: 700;
   color: #232b3e;
@@ -892,6 +894,7 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-right: 1rem;
 }
 
 .payment-filters {
@@ -946,7 +949,7 @@
 .payments-table-container {
   background: #fff;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: scroll;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
