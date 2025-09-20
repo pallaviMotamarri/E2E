@@ -86,7 +86,7 @@ const AdminPaymentRequests = () => {
       if (adminNotes === null) return; // User cancelled
 
       const token = localStorage.getItem('adminToken');
-      await axios.post(`/api/admin/payments/payment-requests/${requestId}/approve`, {
+      await axios.post(`https://auction-system-llhe.onrender.com/api/admin/payments/payment-requests/${requestId}/approve`, {
         adminNotes: adminNotes || 'Payment approved by admin'
       }, {
         headers: { Authorization: `Bearer ${token}` }
@@ -110,7 +110,7 @@ const AdminPaymentRequests = () => {
       }
 
       const token = localStorage.getItem('adminToken');
-      await axios.post(`/api/admin/payments/payment-requests/${requestId}/reject`, {
+      await axios.post(`https://auction-system-llhe.onrender.com/api/admin/payments/payment-requests/${requestId}/reject`, {
         adminNotes
       }, {
         headers: { Authorization: `Bearer ${token}` }
@@ -128,7 +128,7 @@ const AdminPaymentRequests = () => {
   const viewDetails = async (requestId) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await axios.get(`/api/admin/payments/payment-requests/${requestId}`, {
+      const response = await axios.get(`https://auction-system-llhe.onrender.com/api/admin/payments/payment-requests/${requestId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSelectedRequest(response.data.paymentRequest);
